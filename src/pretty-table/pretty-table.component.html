@@ -7,28 +7,36 @@
 
 <div class="mat-elevation-z8">
   
+  <form [formGroup]="form">
+    <mat-checkbox *ngFor="let cd of columnDefinitions"  [formControlName]="cd.def">{{cd.label}}</mat-checkbox>
+</form>
+
+
+  <!-- <mat-spinner></mat-spinner> -->
+
+
 <table mat-table [dataSource]="dataSourceFiltered" matSort class="demo-table">
   <!-- id Column -->
   <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
     <td mat-cell *matCellDef="let row">{{row._id}}</td>
   </ng-container>
 
   <!-- First Name Column -->
 <ng-container matColumnDef="firstName">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>FirstName</th>
   <td mat-cell *matCellDef="let row">{{row.name?.first}}</td>
 </ng-container>
 
 <!-- Last Name Column -->
 <ng-container matColumnDef="lastName">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>LastName</th>
   <td mat-cell *matCellDef="let row">{{row.name?.last}}</td>
 </ng-container>
 
 <!-- is Active Column -->
 <ng-container matColumnDef="isActive">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header>is Active</th>
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>isActive</th>
   <td mat-cell *matCellDef="let row">{{row.isActive}}</td>
 </ng-container>
 
@@ -76,7 +84,7 @@
 
   <!-- FavoriteFruit Column -->
   <ng-container matColumnDef="favoriteFruit">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Favorite Fruit</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>FavoriteFruit</th>
     <td mat-cell *matCellDef="let row">{{row.favoriteFruit}}</td>
   </ng-container>
 
