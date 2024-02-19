@@ -4,16 +4,16 @@ import {MatInputModule} from '@angular/material/input';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-import mockData from '../mock-data/data'
+import { MatSort, MatSortModule} from '@angular/material/sort';
 import { UserData } from '../models/UserData';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DatePipe, CommonModule} from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, merge, of } from 'rxjs';
+import { merge, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { switchMap, catchError, finalize, delay, tap, debounceTime, mergeMap } from 'rxjs/operators';
+import { delay, debounceTime, mergeMap } from 'rxjs/operators';
+import mockData from '../mock-data/data'
 
 @Component({
   selector: 'app-pretty-table',
@@ -88,37 +88,38 @@ formControls = Object.values(this.form.controls) as FormControl[];
 
 
 ngOnInit(): void {
-
   this.processMockData();
   this.isLoadingResults = true;
-
-   of(null).pipe(
-    mergeMap(() => of(null).pipe(delay(this.getRandomDelay())))
-  ).subscribe(() => {
-    this.dataSourceFiltered = new MatTableDataSource(this.dataSource);
-    this.dataSourceFiltered.paginator = this.paginator;
-    this.dataSourceFiltered.sort = this.sort;
-    this.displayedColumns = this.columns;
-    this.getDisplayedColumns();
-    this.isLoadingResults = false;
-  });
 }
 
 ngAfterViewInit() {
   merge(...this.formControls.map(control => control.valueChanges.pipe(debounceTime(300))))
     .subscribe(() => {
       this.getDisplayedColumns();
-      this.displayedColumns = this.columns;
     });
 
-  this.getDisplayedColumns();
-
+  of(null).pipe(
+    mergeMap(() => of(null).pipe(delay(this.getRandomDelay())))
+  ).subscribe(() => {
+    this.dataSourceFiltered = new MatTableDataSource(this.dataSource);
+    this.dataSourceFiltered.paginator = this.paginator;
+    this.dataSourceFiltered.sort = this.sort;
+    this.isLoadingResults = false;
+    
+  });
 }
 
 getDisplayedColumns() {
   this.columns = this.columnDefinitions
     .filter(cd => !this.form.get(cd.def)?.value)
     .map(cd => cd.def);
+    
+    this.displayedColumns = this.columns;
+
+    if (this.dataSourceFiltered) {
+      this.dataSourceFiltered.paginator = this.paginator;
+      this.dataSourceFiltered.sort = this.sort;
+    }
 }
 
 processMockData(): void {

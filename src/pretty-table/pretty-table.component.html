@@ -1,20 +1,19 @@
-<!-- pretty-table.component.html -->
-
-<div class="loading-overlay" *ngIf="isLoadingResults;">
+<div class="loading-overlay" *ngIf="isLoadingResults">
   <mat-spinner class="spinner"></mat-spinner>
 </div>
 
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+</mat-form-field>
 
-  <div class="mat-elevation-z8">
+<div class="mat-elevation-z8">
 
-    <form [formGroup]="form">
-      <mat-checkbox *ngFor="let cd of columnDefinitions" [formControlName]="cd.def">{{cd.label}}</mat-checkbox>
-    </form>
+  <form [formGroup]="form">
+    <mat-checkbox *ngFor="let cd of columnDefinitions" [formControlName]="cd.def">{{cd.label}}</mat-checkbox>
+  </form>
 
+  <div class="table-container">
     <table mat-table [dataSource]="dataSourceFiltered" matSort class="demo-table">
       <!-- id Column -->
       <ng-container matColumnDef="id">
@@ -96,6 +95,7 @@
         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
       </tr>
     </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>

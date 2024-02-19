@@ -37,9 +37,41 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Чтобы затемнить фон */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Выше, чем z-index вашей таблицы */
+    z-index: 1000;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .mat-checkbox {
+      display: block;
+    }
+  
+    .mat-form-field {
+      width: 100%;
+    }
+  
+    .mat-table {
+      overflow-x: auto;
+      display: block;
+      width: 100%;
+    }
+  
+    .mat-header-row,
+    .mat-row {
+      display: flex;
+      flex-wrap: wrap;
+      min-width: 100%;
+    }
+  
+    .mat-header-cell,
+    .mat-cell {
+      flex: 1 0 100%;
+    }
   }
